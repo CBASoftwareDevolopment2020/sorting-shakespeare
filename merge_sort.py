@@ -2,18 +2,26 @@ import random
 import time
 
 
-def merge(left, right):
+def merge(left, right, reverse):
     data = []
     left_idx = right_idx = data_idx = 0
     left_len, right_len = len(left), len(right)
 
     while left_idx < left_len and right_idx < right_len:
-        if left[left_idx] < right[right_idx]:
-            data.append(left[left_idx])
-            left_idx += 1
+        if reverse:
+            if left[left_idx] >= right[right_idx]:
+                data.append(left[left_idx])
+                left_idx += 1
+            else:
+                data.append(right[right_idx])
+                right_idx += 1
         else:
-            data.append(right[right_idx])
-            right_idx += 1
+            if left[left_idx] < right[right_idx]:
+                data.append(left[left_idx])
+                left_idx += 1
+            else:
+                data.append(right[right_idx])
+                right_idx += 1
         data_idx += 1
 
     while left_idx < left_len:
@@ -28,17 +36,17 @@ def merge(left, right):
     return data
 
 
-def merge_sort(arr: list) -> list:
+def merge_sort(arr: list, reverse: bool = False) -> list:
     data = arr[:]
     n = len(data)
     if n < 2:
         return data
 
     mid = len(data) // 2
-    left = merge_sort(data[:mid])
-    right = merge_sort(data[mid:])
+    left = merge_sort(data[:mid], reverse)
+    right = merge_sort(data[mid:], reverse)
 
-    data = merge(left, right)
+    data = merge(left, right, reverse)
     return data
 
 
@@ -48,6 +56,11 @@ if __name__ == '__main__':
     try:
         start = time.time()
         sorted_list = merge_sort(list_to_sort)
+        time_elapsed = time.time() - start
+        print(f'Merge sort with {n} items took {time_elapsed} seconds')
+
+        start = time.time()
+        sorted_list = merge_sort(list_to_sort, reverse=True)
         time_elapsed = time.time() - start
         print(f'Merge sort with {n} items took {time_elapsed} seconds')
     except Exception as e:

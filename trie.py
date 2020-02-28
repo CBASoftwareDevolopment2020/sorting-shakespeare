@@ -1,6 +1,8 @@
 import random
 import time
 
+import MiniProject1
+
 
 class ListNode(object):
     def __init__(self, alphabet: list):
@@ -65,16 +67,20 @@ class DictTrie:
         return values
 
 
-def list_trie_sort(arr: list, alphabet: list) -> list:
+def list_trie_sort(arr: list, alphabet: list, reverse: bool = False) -> list:
     data = arr[:]
+    if reverse:
+        alphabet = MiniProject1.reverse(alphabet)
     trie = ListTrie(alphabet)
     for item in data:
         trie.insert(item, item)
     return trie.get_values(trie.root)
 
 
-def dict_trie_sort(arr: list, alphabet: list) -> list:
+def dict_trie_sort(arr: list, alphabet: list, reverse: bool = False) -> list:
     data = arr[:]
+    if reverse:
+        alphabet = MiniProject1.reverse(alphabet)
     trie = DictTrie(alphabet)
     for item in data:
         trie.insert(item, item)
@@ -85,15 +91,22 @@ if __name__ == '__main__':
     alphabet = [str(x) for x in range(10)]
     n = 1_000_000
     list_to_sort = random.choices(alphabet, k=n)
-    try:
-        start = time.time()
-        sorted_list = list_trie_sort(list_to_sort, alphabet)
-        time_elapsed = time.time() - start
-        print(f'List Trie sort with {n} items took {time_elapsed} seconds')
+    start = time.time()
+    sorted_list = list_trie_sort(list_to_sort, alphabet)
+    time_elapsed = time.time() - start
+    print(f'List Trie sort with {n} items took {time_elapsed} seconds')
 
-        start = time.time()
-        sorted_list = dict_trie_sort(list_to_sort, alphabet)
-        time_elapsed = time.time() - start
-        print(f'Dict Trie sort with {n} items took {time_elapsed} seconds')
-    except Exception as e:
-        print(e)
+    start = time.time()
+    sorted_list = dict_trie_sort(list_to_sort, alphabet)
+    time_elapsed = time.time() - start
+    print(f'Dict Trie sort with {n} items took {time_elapsed} seconds')
+
+    # start = time.time()
+    # sorted_list = list_trie_sort(list_to_sort, alphabet, reverse=True)
+    # time_elapsed = time.time() - start
+    # print(f'List Trie sort with {n} items took {time_elapsed} seconds')
+
+    # start = time.time()
+    # sorted_list = dict_trie_sort(list_to_sort, alphabet, reverse=True)
+    # time_elapsed = time.time() - start
+    # print(f'Dict Trie sort with {n} items took {time_elapsed} seconds')
