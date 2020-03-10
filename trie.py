@@ -16,7 +16,10 @@ class ListTrie:
         self.alphabet = alphabet
 
     def index_of(self, char: str) -> int:
-        return self.alphabet.index(char)
+        idx = ord(char) - chr('a') + 1
+        if idx < 0:
+            idx = 0
+        return idx
 
     def insert(self, key: str, value: object):
         node = self.root

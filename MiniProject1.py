@@ -28,9 +28,8 @@ def sanitize_string(content: str) -> list:
 
 
 def log_time(name: str, runtime: float, n: int):
-    if runtime > 0:
-        with open('sorting-runtimes.csv', 'a') as file:
-            file.write(f'{name}, {runtime}, {n}, {dt.now()}\n')
+    with open('sorting-runtimes.csv', 'a') as file:
+        file.write(f'{name}, {runtime}, {n}, {dt.now()}\n')
 
 
 def time_function(function: callable, arr: list, timeout: int = 60, **kwargs) -> float:
@@ -61,13 +60,7 @@ def get_values(_dict: dict) -> tuple:
 
 
 def reverse(arr: list) -> list:
-    data = arr[:]
-    n = len(data)
-    if n < 2:
-        return data
-    for i in range(n // 2):
-        data[i], data[-1 - i] = data[-1 - i], data[i]
-    return data
+    return arr[::-1]
 
 
 reached_data_limit = []
